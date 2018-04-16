@@ -46,12 +46,10 @@ def get_frame():
 
         blocks_img = [[0 for i in range(blocks_y)] for i in range(blocks_x)]
 
-        # print(blocks)
-
         for y in range(blocks_y):
             for x in range(blocks_x):
                 blocks_img[x][y] = crop_block(img, x, y)
 
-        return img, blocks_img, (blocks_x, blocks_y), (width, height)
+        return img, blocks_img, (blocks_x, blocks_y), (width, height), (left, top, right, bottom)
 
     return -1
