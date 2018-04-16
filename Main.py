@@ -10,7 +10,6 @@ import cv2
 
 
 class BoomMine:
-
     __inited = False
     blocks_x, blocks_y = -1, -1
     width, height = -1, -1
@@ -61,7 +60,14 @@ class BoomMine:
             self.blocks_num[x][y] = 6
 
         if self.equal(block_color, self.rgb_to_bgr((0, 0, 0))):
-            self.blocks_num[x][y] = 7
+            if self.equal(block[6, 6], self.rgb_to_bgr((255, 255, 255))):
+                # Is mine
+                self.blocks_num[x][y] = 9
+            elif self.equal(block[5, 8], self.rgb_to_bgr((255, 0, 0))):
+                # Is flag
+                self.blocks_num[x][y] = 0
+            else:
+                self.blocks_num[x][y] = 7
 
         if self.equal(block_color, self.rgb_to_bgr((128, 128, 128))):
             self.blocks_num[x][y] = 8
