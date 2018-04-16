@@ -125,7 +125,6 @@ class BoomMine:
             return count
 
         def mark_as_mine(blocks):
-            print(666)
             for single_block in blocks:
                 if self.blocks_num[single_block[1]][single_block[0]] == -1:
                     self.blocks_is_mine[single_block[1]][single_block[0]] = 1
@@ -161,12 +160,8 @@ class BoomMine:
 
             # Generate the search map
             to_visit = generate_kernel(kernel, kernel_width, kernel_height, location)
-            print(to_visit)
 
             unopen_blocks = count_unopen_blocks(to_visit)
-            print(unopen_blocks)
-            print(self.blocks_num[x][y])
-            print(location)
             if unopen_blocks == self.blocks_num[x][y]:
                 mark_as_mine(to_visit)
 
@@ -234,7 +229,6 @@ class BoomMine:
 
             # Generate the search map
             to_visit = generate_kernel(kernel, kernel_width, kernel_height, location)
-            print(to_visit)
 
             mines_count = count_mines(to_visit)
 
@@ -307,7 +301,6 @@ class BoomMine:
         self.iterate_blocks_number(BoomMine.detect_to_click_block)
 
         self.have_solve = False
-        print(self.is_mine_form)
         if len(self.next_steps) > 0:
             self.have_solve = True
 
@@ -328,7 +321,6 @@ class BoomMine:
 
                 while self.blocks_is_mine[rand_x][rand_y] or not self.blocks_num[rand_x][
                                                                      rand_y] == -1 and iter_times < 20:
-                    print(self.blocks_num[rand_x][rand_y])
                     rand_location = (random.randint(0, self.blocks_x - 1), random.randint(0, self.blocks_y - 1))
                     rand_x, rand_y = rand_location[0], rand_location[1]
                     iter_times += 1

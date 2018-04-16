@@ -171,9 +171,9 @@ def get_mouse_point():
 def mouse_click(x=None, y=None):
     if not x is None and not y is None:
         mouse_move(x, y)
-        time.sleep(0.05)
+        time.sleep(0.001)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    time.sleep(0.05)
+    time.sleep(0.001)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
 
