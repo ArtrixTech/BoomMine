@@ -352,9 +352,9 @@ class BoomMine:
 miner = BoomMine()
 
 while 1:
-    # try:
-    miner.process_once()
-# except:
-# pass
+    try:
+        miner.process_once()
+    except:
+        pass
 # miner.show_map()
 # print(miner.next_steps)
