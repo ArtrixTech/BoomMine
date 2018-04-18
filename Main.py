@@ -276,15 +276,17 @@ class BoomMine:
     def process_once(self):
 
         # Initialize
-        self.img, self.blocks_img, form_size, img_size, form_location = imageProcess.get_frame()
+        result = imageProcess.get_frame()
+        if result == -1:
+            print("Minesweeper Arbiter Window Not Detected!")
+            return False
+        self.img, self.blocks_img, form_size, img_size, form_location = result
+
         self.blocks_num = [[-1 for i in range(self.blocks_y)] for i in range(self.blocks_x)]
         self.blocks_is_mine = [[0 for i in range(self.blocks_y)] for i in range(self.blocks_x)]
         self.next_steps = []
         self.is_new_start = True
         self.is_mine_form = True
-
-        if self.img == -1:
-            return False
 
         self.blocks_x, self.blocks_y = form_size[0], form_size[1]
         self.width, self.height = img_size[0], img_size[1]
@@ -305,10 +307,13 @@ class BoomMine:
             self.have_solve = True
 
         if self.is_in_form(mouseOperation.get_mouse_point()):
+
             for to_click in self.next_steps:
                 on_screen_location = self.rel_loc_to_real(to_click)
                 mouseOperation.mouse_move(on_screen_location[0], on_screen_location[1])
                 mouseOperation.mouse_click()
+
+                # If your computer's performance is not high, enable this:
                 # time.sleep(0.001)
 
         if not self.have_solve and self.is_mine_form:
@@ -320,7 +325,7 @@ class BoomMine:
             if len(self.blocks_is_mine) > 0:
 
                 while self.blocks_is_mine[rand_x][rand_y] or not self.blocks_num[rand_x][
-                                                                     rand_y] == -1 and iter_times < 20:
+                                                                     rand_y] == -1 and iter_times < 50:
                     rand_location = (random.randint(0, self.blocks_x - 1), random.randint(0, self.blocks_y - 1))
                     rand_x, rand_y = rand_location[0], rand_location[1]
                     iter_times += 1
@@ -342,9 +347,9 @@ class BoomMine:
 miner = BoomMine()
 
 while 1:
-    miner.process_once()
+    try:
+        miner.process_once()
+    except:
+        pass
     # miner.show_map()
-    # miner.show_mine()
     # print(miner.next_steps)
-    # print(miner.blocks_is_mine)
-    # time.sleep(0.5)

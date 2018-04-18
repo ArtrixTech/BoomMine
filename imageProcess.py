@@ -1,6 +1,4 @@
 import win32gui
-import win32api
-import time
 
 import numpy
 from PIL import ImageGrab
