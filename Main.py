@@ -4,6 +4,7 @@ import random
 
 import imageProcess
 import cv2
+import time
 
 
 class BoomMine:
@@ -50,59 +51,63 @@ class BoomMine:
                     func(self, self.blocks_num[x][y], (x, y))
 
     def analyze_block(self, block, location):
-        block = imageProcess.pil_to_cv(block)
-
-        block_color = block[8, 8]
         x, y = location[0], location[1]
+        now_num = self.blocks_num[x][y]
 
-        # -1:Not opened
-        # -2:Opened but blank
-        # -3:Un initialized
+        # if 1:
+        if not now_num == -2 and not 0 < now_num < 9:
 
-        # Opened
-        if self.equal(block_color, self.rgb_to_bgr((192, 192, 192))):
-            if not self.equal(block[8, 1], self.rgb_to_bgr((255, 255, 255))):
-                self.blocks_num[x][y] = -2
-                self.is_started = True
+            block = imageProcess.pil_to_cv(block)
+            block_color = block[8, 8]
+
+            # -1:Not opened
+            # -2:Opened but blank
+            # -3:Un initialized
+
+            # Opened
+            if self.equal(block_color, self.rgb_to_bgr((192, 192, 192))):
+                if not self.equal(block[8, 1], self.rgb_to_bgr((255, 255, 255))):
+                    self.blocks_num[x][y] = -2
+                    self.is_started = True
+                else:
+                    self.blocks_num[x][y] = -1
+
+            elif self.equal(block_color, self.rgb_to_bgr((0, 0, 255))):
+                self.blocks_num[x][y] = 1
+
+            elif self.equal(block_color, self.rgb_to_bgr((0, 128, 0))):
+                self.blocks_num[x][y] = 2
+
+            elif self.equal(block_color, self.rgb_to_bgr((255, 0, 0))):
+                self.blocks_num[x][y] = 3
+
+            elif self.equal(block_color, self.rgb_to_bgr((0, 0, 128))):
+                self.blocks_num[x][y] = 4
+
+            elif self.equal(block_color, self.rgb_to_bgr((128, 0, 0))):
+                self.blocks_num[x][y] = 5
+
+            elif self.equal(block_color, self.rgb_to_bgr((0, 128, 128))):
+                self.blocks_num[x][y] = 6
+
+            elif self.equal(block_color, self.rgb_to_bgr((0, 0, 0))):
+                if self.equal(block[6, 6], self.rgb_to_bgr((255, 255, 255))):
+                    # Is mine
+                    self.blocks_num[x][y] = 9
+                elif self.equal(block[5, 8], self.rgb_to_bgr((255, 0, 0))):
+                    # Is flag
+                    self.blocks_num[x][y] = 0
+                else:
+                    self.blocks_num[x][y] = 7
+
+            elif self.equal(block_color, self.rgb_to_bgr((128, 128, 128))):
+                self.blocks_num[x][y] = 8
             else:
-                self.blocks_num[x][y] = -1
+                self.blocks_num[x][y] = -3
+                self.is_mine_form = False
 
-        elif self.equal(block_color, self.rgb_to_bgr((0, 0, 255))):
-            self.blocks_num[x][y] = 1
-
-        elif self.equal(block_color, self.rgb_to_bgr((0, 128, 0))):
-            self.blocks_num[x][y] = 2
-
-        elif self.equal(block_color, self.rgb_to_bgr((255, 0, 0))):
-            self.blocks_num[x][y] = 3
-
-        elif self.equal(block_color, self.rgb_to_bgr((0, 0, 128))):
-            self.blocks_num[x][y] = 4
-
-        elif self.equal(block_color, self.rgb_to_bgr((128, 0, 0))):
-            self.blocks_num[x][y] = 5
-
-        elif self.equal(block_color, self.rgb_to_bgr((0, 128, 128))):
-            self.blocks_num[x][y] = 6
-
-        elif self.equal(block_color, self.rgb_to_bgr((0, 0, 0))):
-            if self.equal(block[6, 6], self.rgb_to_bgr((255, 255, 255))):
-                # Is mine
-                self.blocks_num[x][y] = 9
-            elif self.equal(block[5, 8], self.rgb_to_bgr((255, 0, 0))):
-                # Is flag
-                self.blocks_num[x][y] = 0
-            else:
-                self.blocks_num[x][y] = 7
-
-        elif self.equal(block_color, self.rgb_to_bgr((128, 128, 128))):
-            self.blocks_num[x][y] = 8
-        else:
-            self.blocks_num[x][y] = -3
-            self.is_mine_form = False
-
-        if self.blocks_num[x][y] == -3 or not self.blocks_num[x][y] == -1:
-            self.is_new_start = False
+            if self.blocks_num[x][y] == -3 or not self.blocks_num[x][y] == -1:
+                self.is_new_start = False
 
     def detect_mine(self, block, location):
 
@@ -347,9 +352,9 @@ class BoomMine:
 miner = BoomMine()
 
 while 1:
-    try:
-        miner.process_once()
-    except:
-        pass
-    # miner.show_map()
-    # print(miner.next_steps)
+    # try:
+    miner.process_once()
+# except:
+# pass
+# miner.show_map()
+# print(miner.next_steps)
