@@ -173,7 +173,7 @@ def mouse_click(x=None, y=None):
         mouse_move(x, y)
         time.sleep(0.001)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    #time.sleep(0.001)
+    # time.sleep(0.001)
     win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
 
 
@@ -195,8 +195,8 @@ def mouse_move(x, y):
 
 
 def mouse_absolute(x, y, x2, y2):
-    windll.user32.SetCursorPos(x, y)  # 鼠标移动到
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)  # 左键按下
+    windll.user32.SetCursorPos(x, y)
+    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
     time.sleep(0.2)
     mw = int(x2 * 65535 / SW)
     mh = int(y2 * 65535 / SH)
