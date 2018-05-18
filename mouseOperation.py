@@ -172,10 +172,15 @@ def mouse_click(x=None, y=None):
     if not x is None and not y is None:
         mouse_move(x, y)
         time.sleep(0.001)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
-    # time.sleep(0.001)
-    win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
-
+    if win32api.GetSystemMetrics(23):  # check has swap mouse primary key.
+        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTDOWN, 0, 0, 0, 0)
+        # time.sleep(0.001)
+        win32api.mouse_event(win32con.MOUSEEVENTF_RIGHTUP, 0, 0, 0, 0)
+    else:
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 0, 0, 0, 0)
+        # time.sleep(0.001)
+        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 0, 0, 0, 0)
+        
 
 def mouse_dclick(x=None, y=None):
     if not x is None and not y is None:
